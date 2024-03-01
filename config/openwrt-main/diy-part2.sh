@@ -51,5 +51,5 @@ rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
 
 # 修改为官方vermagic，以便后期安装官方ipk
-curl -s https://downloads.immortalwrt.org/releases/21.02.7/targets/armvirt/64/immortalwrt-21.02.7-armvirt-64-default.manifest | grep kernel | awk '{print $3}' | awk -F- '{print $3}' > .vermagic
+curl -s https://mirror-03.infra.openwrt.org/releases/23.05.2/targets/armsr/armv8/openwrt-23.05.2-armsr-armv8.manifest | grep kernel | awk '{print $3}' | awk -F- '{print $3}' > .vermagic
 sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
