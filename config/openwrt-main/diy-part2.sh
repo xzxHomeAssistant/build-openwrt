@@ -41,7 +41,9 @@ sed -i 's/192.168.1.1/192.168.0.253/g' package/base-files/files/bin/config_gener
 #
 # ------------------------------- Other ends -------------------------------
 git clone https://github.com/jerrykuku/luci-theme-argon.git package/luci-theme-argon
-git clone https://github.com/vernesong/OpenClash/tree/master/luci-app-openclash package/luci-app-openclash
+
+git clone -b master --depth=1 --filter=blob:none --sparse https://github.com/vernesong/OpenClash.git package/luci-app-openclash
+git -C package/luci-app-openclash sparse-checkout set luci-app-openclash
 
 # 移除 openwrt feeds 自带的核心包
 rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box}
