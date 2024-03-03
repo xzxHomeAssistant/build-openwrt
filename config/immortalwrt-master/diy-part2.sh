@@ -16,7 +16,7 @@ sed -i "s|DISTRIB_REVISION='.*'|DISTRIB_REVISION='R$(date +%Y.%m.%d)'|g" package
 echo "DISTRIB_SOURCECODE='immortalwrt'" >>package/base-files/files/etc/openwrt_release
 
 # Modify default IP（FROM 192.168.1.1 CHANGE TO 192.168.0.253）
-sed -i 's/192.168.1.1/192.168.0.253/g' package/base-files/files/bin/config_generate
+# sed -i 's/192.168.1.1/192.168.0.253/g' package/base-files/files/bin/config_generate
 #
 # ------------------------------- Main source ends -------------------------------
 
@@ -31,8 +31,8 @@ sed -i 's/192.168.1.1/192.168.0.253/g' package/base-files/files/bin/config_gener
 # ------------------------------- Other ends -------------------------------
 
 # 更新 golang 1.22 版本
-rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
+# rm -rf feeds/packages/lang/golang
+# git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
 
 # 修改为官方vermagic，以便后期安装官方ipk
 curl -s https://downloads.immortalwrt.org/releases/23.05.1/targets/armsr/armv8/immortalwrt-23.05.1-armsr-armv8.manifest | grep kernel | awk '{print $3}' | awk -F- '{print $3}' > .vermagic
