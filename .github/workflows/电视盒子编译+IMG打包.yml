@@ -140,7 +140,7 @@ on:
           - 5.10.233
           - 5.15.177
           - 6.1.y
-          - 6.6.y
+          - 6.6.73
           - 6.1.y_6.6.y
           - 5.15.y_5.10.y
       auto_kernel:
@@ -234,7 +234,7 @@ jobs:
               TAGS_NAME="lede"
           elif [[ "${{ inputs.source_branch }}" == *"immortalwrt"* ]]; then
               REPO_URL="https://github.com/immortalwrt/immortalwrt"
-              REPO_BRANCH="v21.02.7"
+              REPO_BRANCH="openwrt-24.10"
               TAGS_NAME="immortalwrt"
           elif [[ "${{ inputs.source_branch }}" == *"Lienol"* ]]; then
               REPO_URL="https://github.com/Lienol/openwrt"
