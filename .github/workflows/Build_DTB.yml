@@ -24,7 +24,7 @@ jobs:
       - name: Build DTB
         run: |
           mkdir -p dtb
-          for dts in ./dts/test1.dts; do
+          for dts in ./dts/meson-g12a-x96-max.dts; do
             cpp -nostdinc -I include/ -I /path/to/linux/include/ \-undef -x assembler-with-cpp $dts > preprocessed.dts
             dtc -I dts -@ -O dtb -o dtb/$(basename $dts .dts).dtb preprocessed.dts
           done
