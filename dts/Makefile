@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-2.0
-dtb-$(CONFIG_ARCH_MESON) += meson-g12a-x96-max.dtb
 
-subdir-y	:= $(dtb-dirs) overlay
+dtb-y += meson-g12a-x96-max.dtb
+$(obj)/meson-g12a-x96-max.dtb: $(src)/meson-g12a-x96-max.dts
+    $(call if_changed,dtc)
