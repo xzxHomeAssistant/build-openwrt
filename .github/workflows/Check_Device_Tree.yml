@@ -12,5 +12,5 @@ jobs:
       run: sudo apt-get update && sudo apt-get install -y device-tree-compiler
  
     - name: Check dts file
-      run: dtc -I dts -O dtb -o /dev/null ./dts/meson-g12a-x96-max.dts
+      run: dtc -I dts -O dtb -o /dev/null ./dts/meson-g12a.dtsi
 
