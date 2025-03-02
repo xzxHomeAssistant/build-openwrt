@@ -12,5 +12,5 @@ jobs:
       run: sudo apt-get update && sudo apt-get install -y device-tree-compiler
  
     - name: Check dts file
-      run: dtc -I dts -O dtb -o /dev/null config/dt-bindings/phy/phy.h
+      run: dtc -I config -I dts -O dtb -o /dev/null dt-bindings/phy/phy.h
 
