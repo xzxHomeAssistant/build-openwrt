@@ -5,9 +5,9 @@ on:
   workflow_dispatch:
   push:
     branches: [ main ]
-    paths: [ 'dts/**', 'scripts/**', 'config/**'  ]
+    paths: [ './dts/**', './scripts/**', './config/**'  ]
   pull_request:
-    paths: [ 'dts/**' ]
+    paths: [ './dts/**' ]
 
 jobs:
   build:
@@ -24,7 +24,7 @@ jobs:
       - name: Build DTB
         run: |
           mkdir -p dtb
-          for dts in dts/meson-g12a-x96-max.dts; do
+          for dts in ./dts/meson-g12a-x96-max.dts; do
             dtc -I dts -O dtb -o dtb/$(basename $dts .dts).dtb $dts
           done
           tree dtb
