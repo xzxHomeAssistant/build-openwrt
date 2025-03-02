@@ -1,0 +1,11 @@
+/dts-v1/;
+
+/ {
+   model = "X96 Max S905X2 (U211/V311 BCM4329)";
+    compatible = "amlogic,x96-max-u211", "amlogic,g12a";
+
+    /* 内存配置 */
+    memory@0 {
+        device_type = "memory";
+        reg = <0x0 0x0 0x0 0x100000000>;  // 4GB
+    };
