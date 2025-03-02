@@ -1,0 +1,50 @@
+name: Build DTB for X96 Max
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths: [ 'dts/**', 'scripts/**', 'config/**'  ]
+  pull_request:
+    paths: [ 'dts/**' ]
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y device-tree-compiler tree
+
+      - name: Build DTB
+        run: |
+          mkdir -p dtb
+          for dts in dts/meson-g12a-x96-max.dts; do
+            dtc -I dts -O dtb -o dtb/$(basename $dts .dts).dtb $dts
+          done
+          tree dtb
+
+      - name: Verify DTB
+        run: |
+          chmod +x scripts/verify_dtb.sh
+          ./scripts/verify_dtb.sh dtb/meson-g12a-x96-max.dtb
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: x96max-dtb-${{ github.run_id }}
+          path: dtb/
+          retention-days: 7
+
+      - name: Release Deployment
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            dtb/meson-g12a-x96-max.dtb
+            dtb/meson-g12a-x96-max.dts
