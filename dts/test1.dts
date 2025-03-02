@@ -1,0 +1,14 @@
+/dts-v1/;
+
+#include "test.dts"
+
+/ {
+	compatible = "amediatech,x96-max-rmii", "amlogic,u200", "amlogic,g12a";
+	//model = "Shenzhen Amediatech Technology Co., Ltd X96 Max";
+	model = "X96 Max (RMII)1";
+
+	memory@0 {
+		device_type = "memory";
+		reg = <0x0 0x0 0x0 0x80000000>;
+	};
+};
