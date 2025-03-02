@@ -32,7 +32,7 @@ jobs:
 
       - name: Verify DTB
         run: |
-          chmod +x scripts/verify_dtb.sh
+          chmod +x ./scripts/verify_dtb.sh
           ./scripts/verify_dtb.sh dtb/meson-g12a-x96-max.dtb
 
       - name: Upload Artifacts
