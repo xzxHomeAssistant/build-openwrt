@@ -269,6 +269,7 @@
 				ranges = <0x0 0x0 0x0 0x34400 0x0 0x400>;
 
 				periphs_pinctrl: pinctrl@40 {
+					reg = <0x40 0x20>
 					compatible = "amlogic,meson-g12a-periphs-pinctrl";
 					#address-cells = <2>;
 					#size-cells = <2>;
