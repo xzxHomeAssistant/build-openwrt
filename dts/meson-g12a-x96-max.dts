@@ -1,0 +1,99 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Device Tree for X96 Max S905X2 (U211/V311)
+ * - Amlogic G12A (S905X2) SoC
+ * - RTL8211F + BCM4329 Wi-Fi/BT
+ * - 4GB DDR4 + 64GB eMMC
+ * - Linux 6.6 内核适配
+ */
+
+/dts-v1/;
+
+#include "meson-g12a.dtsi"
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/interrupt-controller/irq.h>
+
+/ {
+    model = "X96 Max S905X2 (U211/V311 BCM4329)";
+    compatible = "amlogic,x96-max-u211", "amlogic,g12a";
+
+    /* 内存配置 */
+    memory@0 {
+        device_type = "memory";
+        reg = <0x0 0x0 0x0 0x100000000>;  // 4GB
+    };
+
+    /* Wi-Fi 电源控制 */
+    wifi_pwrseq: wifi-pwrseq {
+        compatible = "mmc-pwrseq-simple";
+        reset-gpios = <&gpio GPIOX_17 GPIO_ACTIVE_LOW>;
+        post-power-on-delay-ms = <100>;
+    };
+};
+
+/* 以太网 (RTL8211F) */
+&ethmac {
+    status = "okay";
+    phy-handle = <&external_phy>;
+    phy-mode = "rgmii-id";
+    pinctrl-0 = <&eth_pins>;
+    pinctrl-names = "default";
+    amlogic,rx-delay-ns = <2>;
+    amlogic,tx-delay-ns = <2>;
+    snps,reset-gpios = <&gpio GPIOZ_15 GPIO_ACTIVE_LOW>;
+    snps,reset-delays-us = <0 10000 100000>;
+};
+
+&external_phy {
+    compatible = "ethernet-phy-id001c.c916";
+    reg = <0>;
+    max-speed = <1000>;
+    clocks = <&clkc CLKID_ETH_PHY>;
+    clock-names = "eth_phy";
+};
+
+/* SDIO Wi-Fi (BCM4329) */
+&sd_emmc_b {
+    status = "okay";
+    bus-width = <4>;
+    max-frequency = <50000000>;
+    non-removable;
+    cap-sd-highspeed;
+    mmc-pwrseq = <&wifi_pwrseq>;
+
+    #address-cells = <1>;
+    #size-cells = <0>;
+
+    brcmf: wifi@1 {
+        compatible = "brcm,bcm4329-fmac";
+        reg = <1>;
+        interrupt-parent = <&gpio>;
+        interrupts = <GPIOX_16 IRQ_TYPE_EDGE_FALLING>;
+        interrupt-names = "host-wake";
+        brcm,drive-strength = <10>;
+    };
+};
+
+/* 蓝牙 UART */
+&uart_B {
+    status = "okay";
+    pinctrl-0 = <&uart_b_pins>, <&uart_b_cts_rts_pins>;
+    pinctrl-names = "default";
+    bluetooth {
+        compatible = "brcm,bcm43438-bt";
+        shutdown-gpios = <&gpio GPIOX_18 GPIO_ACTIVE_HIGH>;
+        device-wakeup-gpios = <&gpio GPIOX_19 GPIO_ACTIVE_HIGH>;
+        host-wakeup-gpios = <&gpio GPIOX_20 GPIO_ACTIVE_HIGH>;
+    };
+};
+
+/* eMMC 存储 */
+&sd_emmc_a {
+    status = "okay";
+    bus-width = <8>;
+    max-frequency = <200000000>;
+    non-removable;
+    cap-mmc-highspeed;
+    mmc-hs200-1_8v;
+    mmc-ddr-1_8v;
+};
