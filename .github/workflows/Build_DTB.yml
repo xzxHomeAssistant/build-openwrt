@@ -5,9 +5,9 @@ on:
   workflow_dispatch:
   push:
     branches: [ main ]
-    paths: [ './dts/**', './scripts/**', './config/**'  ]
+    paths: [ 'dts/**', 'scripts/**', 'config/**'  ]
   pull_request:
-    paths: [ './dts/**' ]
+    paths: [ 'dts/**' ]
 
 jobs:
   build:
@@ -24,8 +24,8 @@ jobs:
       - name: Build DTB
         run: |
           mkdir -p dtb
-          for dts in ./dts/meson-g12a-x96-max.dts; do
-            cpp -nostdinc -I include/ -I /path/to/linux/include/ \-undef -x assembler-with-cpp $dts > preprocessed.dts
+          for dts in dts/meson-g12a-x96-max.dts; do
+            cpp -nostdinc -I config/ -I /path/to/linux/include/ \-undef -x assembler-with-cpp $dts > preprocessed.dts
             dtc -I dts -@ -O dtb -o dtb/$(basename $dts .dts).dtb preprocessed.dts
           done
           tree dtb
