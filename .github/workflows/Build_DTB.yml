@@ -30,10 +30,23 @@ jobs:
           done
           tree dtb
 
+      - name: Debug Directory Structure
+        run: |
+          echo "Current directory: $PWD"
+          ls -R
+
+      - name: Set Script Permissions
+        run: |
+          if [ -f "scripts/verify_dtb.sh" ]; then
+            chmod +x scripts/verify_dtb.sh
+          else
+            echo "##[error] verify_dtb.sh not found!"
+            exit 1
+          fi
+
       - name: Verify DTB
         run: |
-          chmod +x scripts/verify_dtb.sh
-          scripts/verify_dtb.sh dtb/meson-g12a-x96-max.dtb
+          ./scripts/verify_dtb.sh dtb/meson-g12a-x96-max.dtb
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
