@@ -358,8 +358,9 @@
                 compatible ="ethernet-phy-id001c.c916"; 
 		reg = <0>;
 		max-speed = <1000>;
-		clocks = <&clkc CLKID_ETH_PHY>;
 		clock-names = "eth_phy";
+                assigned-clocks = <&clkc CLKID_ETH_PHY>;
+                assigned-clock-rates = <125000000>;
 		eee-broken-1000t;
 
 		reset-assert-us = <10000>;
@@ -376,7 +377,7 @@
 	pinctrl-0 = <&eth_pins>, <&eth_rgmii_pins>;
 	pinctrl-names = "default";
 	status = "okay";
-	phy-mode = "rgmii-id";
+	phy-mode = "rgmii";
 	phy-handle = <&external_phy>;
 
 	amlogic,rx-delay-ns = <2>;
