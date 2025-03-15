@@ -16,7 +16,7 @@ sed -i "s|DISTRIB_REVISION='.*'|DISTRIB_REVISION='R$(date +%Y.%m.%d)'|g" package
 echo "DISTRIB_SOURCECODE='official'" >>package/base-files/files/etc/openwrt_release
 
 # Modify default IP（FROM 192.168.1.1 CHANGE TO 192.168.31.4）
-sed -i 's/192.168.1.1/192.168.31.4/g' package/base-files/files/bin/config_generate
+# sed -i 's/192.168.1.1/192.168.31.4/g' package/base-files/files/bin/config_generate
 #
 # ------------------------------- Main source ends -------------------------------
 
@@ -30,11 +30,10 @@ git clone https://github.com/ophub/luci-app-amlogic.git package/luci-app-amlogic
 # git apply ../config/patches/{0001*,0002*}.patch --directory=feeds/luci
 #
 # ------------------------------- Other ends -------------------------------
-
-# 更新 golang 1.23 版本
+# 更新 golang 版本
 rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 23.x feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 24.x feeds/packages/lang/golang
 
 #修改为官方vermagic，以便后期安装官方ipk
-curl -s https://downloads.openwrt.org/releases/18.06.9/targets/armvirt/64/openwrt-18.06.9-armvirt-64-default.manifest | grep kernel | awk '{print $3}' | awk -F- '{print $3}' > .vermagic
+curl -s https://downloads.openwrt.org/releases/24.10.0/targets/armsr/armv8/openwrt-24.10.0-armsr-armv8.manifest | grep kernel | awk '{print $3}' | awk -F- '{print $3}' > .vermagic
 sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
